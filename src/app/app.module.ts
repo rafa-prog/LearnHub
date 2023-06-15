@@ -10,12 +10,14 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { ErrorComponent } from './forum/pages/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateUserComponent,
     HomeComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
