@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "learnhub-d88d5": {
+      "hosting": {
+        "LearnHub": [
+          "learnhub-d88d5"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "learnhub-d88d5"
+  }
+}
