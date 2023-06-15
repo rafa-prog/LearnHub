@@ -26,7 +26,7 @@ const routes: Routes = [
     component: CreateUserComponent
   },
   {
-    path: 'erro',
+    path: '**',
     component: ErrorComponent
   }
 ];
