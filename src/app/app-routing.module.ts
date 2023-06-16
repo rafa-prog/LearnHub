@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './forum/pages/home/home.component';
 import { CreateUserComponent } from './users/pages/create/create.component';
 import { ErrorComponent } from './forum/pages/error/error.component';
+import { FeaturesComponent } from './forum/pages/features/features.component';
+import { SignInComponent } from './users/pages/sign-in/sign-in.component';
+import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
 
 const routes: Routes = [
   {
@@ -14,16 +17,20 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
+    path: 'features',
+    component: FeaturesComponent
+  },
+  {
     path: 'topics/:name',
     component: HomeComponent
   },
   {
-    path: 'signin',
-    component: CreateUserComponent
+    path: 'sign-in',
+    component: SignInComponent
   },
   {
-    path: 'signup',
-    component: CreateUserComponent
+    path: 'sign-up',
+    component: SignUpComponent
   },
   {
     path: '**',

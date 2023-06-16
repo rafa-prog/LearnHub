@@ -11,6 +11,9 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { ErrorComponent } from './forum/pages/error/error.component';
+import { FeaturesComponent } from './forum/pages/features/features.component';
+import { SignInComponent } from './users/pages/sign-in/sign-in.component';
+import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +21,9 @@ import { ErrorComponent } from './forum/pages/error/error.component';
     CreateUserComponent,
     HomeComponent,
     ErrorComponent,
+    FeaturesComponent,
+    SignInComponent,
+    SignUpComponent,
   ],
   imports: [
     BrowserModule,
