@@ -14,6 +14,7 @@ import { ErrorComponent } from './forum/pages/error/error.component';
 import { FeaturesComponent } from './forum/pages/features/features.component';
 import { SignInComponent } from './users/pages/sign-in/sign-in.component';
 import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
+import { EditComponent } from './users/pages/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
     FeaturesComponent,
     SignInComponent,
     SignUpComponent,
+    EditComponent,
   ],
   imports: [
     BrowserModule,

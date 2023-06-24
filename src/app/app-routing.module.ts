@@ -6,6 +6,7 @@ import { ErrorComponent } from './forum/pages/error/error.component';
 import { FeaturesComponent } from './forum/pages/features/features.component';
 import { SignInComponent } from './users/pages/sign-in/sign-in.component';
 import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
+import { EditComponent } from './users/pages/edit/edit.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'sign-up',
     component: SignUpComponent
+  },
+  {
+    path: 'edit',
+    component: EditComponent
   },
   {
     path: '**',

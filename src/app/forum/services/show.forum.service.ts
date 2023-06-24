@@ -1,9 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShowForumService {
+  firestore: Firestore = inject(Firestore)
 
-  constructor() { }
+  constructor() {}
+
+  execute() {
+    return collectionData(collection(this.firestore, 'topics'));
+  }
 }
