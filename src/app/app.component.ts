@@ -5,13 +5,9 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'LearnHub';
-
-  constructor() {
-
-  }
-  goFeatures() {
-
-  }
+  headers = ["Recursos", "Comunidades", "Empresa"]
+  urls = ["features", "a", "b"]
 }

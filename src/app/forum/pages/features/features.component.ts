@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ShowForumService } from '../../services/show.forum.service';
+import { ShowForumService } from '../../services/show.topic.service';
 
 @Component({
   selector: 'app-features',

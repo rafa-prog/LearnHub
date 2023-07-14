@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './forum/pages/home/home.component';
-import { CreateUserComponent } from './users/pages/create/create.component';
 import { ErrorComponent } from './forum/pages/error/error.component';
 import { FeaturesComponent } from './forum/pages/features/features.component';
 import { SignInComponent } from './users/pages/sign-in/sign-in.component';
