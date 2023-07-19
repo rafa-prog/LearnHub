@@ -9,5 +9,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'LearnHub';
   headers = ["Recursos", "Comunidades", "Empresa"]
-  urls = ["features", "a", "b"]
+  urls = ["features", "communities", "b"]
 }

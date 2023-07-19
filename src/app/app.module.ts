@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { CommunitiesComponent } from './forum/pages/communities/communities.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     SignInComponent,
     SignUpComponent,
     EditComponent,
+    CommunitiesComponent,
   ],
   imports: [
     BrowserModule,
