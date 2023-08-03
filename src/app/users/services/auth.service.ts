@@ -31,4 +31,20 @@ export class AuthService {
     await signInWithPopup(this.auth, a);
     console.log(this.userSubscription);
   }
+
+  signUp(email:string, password:string) {
+    createUserWithEmailAndPassword(this.auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
+  }
+
+
 }

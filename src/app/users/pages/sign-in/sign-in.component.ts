@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateUserService } from '../../services/create.user.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
@@ -16,15 +15,14 @@ export class SignInComponent {
   isSubmitted: boolean
 
   constructor(private formBuilder: FormBuilder,
-    private cUserS: CreateUserService,
     private authService: AuthService,
     private router: Router) {}
 
   ngOnInit() {
     this.isSubmitted = false;
     this.FormLogin = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     })
   }
 

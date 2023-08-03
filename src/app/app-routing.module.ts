@@ -5,8 +5,9 @@ import { ErrorComponent } from './forum/pages/error/error.component';
 import { FeaturesComponent } from './forum/pages/features/features.component';
 import { SignInComponent } from './users/pages/sign-in/sign-in.component';
 import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
-import { EditComponent } from './users/pages/edit/edit.component';
 import { CommunitiesComponent } from './forum/pages/communities/communities.component';
+import { SignUp2Component } from './users/pages/sign-up2/sign-up2.component';
+import { ProfileComponent } from './users/pages/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -34,8 +35,12 @@ const routes: Routes = [
     component: SignUpComponent
   },
   {
-    path: 'edit',
-    component: EditComponent
+    path: 'sign-up-2',
+    component: SignUp2Component
+  },
+  {
+    path: 'user',
+    component: ProfileComponent
   },
   {
     path: 'communities',

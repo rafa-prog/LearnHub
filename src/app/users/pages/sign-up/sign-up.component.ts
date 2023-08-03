@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateUserService } from '../../services/create.user.service';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,29 +10,21 @@ import { StorageService } from 'src/app/services/storage.service';
 export class SignUpComponent {
   FormCad: FormGroup
   isSubmitted: boolean
-  image: any
 
   constructor(private formBuilder: FormBuilder,
-    private cUserS: CreateUserService,
-    private authService: AuthService,
-    private FSService: StorageService,
     private router: Router) {}
 
   ngOnInit() {
     this.isSubmitted = false;
     this.FormCad = this.formBuilder.group({
-      file: [null, []],
-      //password: ['', [Validators.required, Validators.minLength(6)]],
-      terms: ['', Validators.requiredTrue],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirm_password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
-  navegar(link: string) {
-    this.router.navigate([link])
-  }
-
   getErrorControl(control: string, error: string): boolean {
-    return this.FormCad.controls[control]?.hasError(error)
+    return this.FormCad.controls[control].hasError(error)
   }
 
   onSubmit() {
@@ -44,25 +33,19 @@ export class SignUpComponent {
     if(!this.FormCad.valid) {
       this.isSubmitted = false
       this.FormCad.reset()
-      alert('Login ou senha inválidos')
+      alert('Campo(s) de cadastro inválido(s)!')
       return false
     }
 
-    this.teste()
+    this.registerEmail()
     return true
   }
 
-  uploadFile(event: any){
-    this.image = event.target.files[0];
+  navegar(link: string) {
+    this.router.navigate([link])
   }
 
-  teste() {
-
-    if(this.image) {
-      console.log(this.image)
-      console.log("disponivel em: " + this.FSService.uploadFile(this.image))
-    }else {
-      console.log("https://firebasestorage.googleapis.com/v0/b/learnhub-d88d5.appspot.com/o/imagens%2F1689342292384_messi.jpg?alt=media&token=b2f13891-8607-432b-baef-8a969b1c10df")
-    }
+  registerEmail() {
+    this.navegar('sign-up-2')
   }
 }
