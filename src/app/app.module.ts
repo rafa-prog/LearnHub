@@ -23,6 +23,7 @@ import { SignUp2Component } from './users/pages/sign-up2/sign-up2.component';
 import { PostComponent } from './forum/pages/post/post.component';
 import { SignUp3Component } from './users/pages/sign-up3/sign-up3.component';
 import { ProfileComponent } from './users/pages/profile/profile.component';
+import { RecoveryPasswordComponent } from './users/pages/recovery-password/recovery-password.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ProfileComponent } from './users/pages/profile/profile.component';
     PostComponent,
     SignUp3Component,
     ProfileComponent,
+    RecoveryPasswordComponent,
   ],
   imports: [
     BrowserModule,

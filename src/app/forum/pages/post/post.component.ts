@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent {
-
+  // cria um post e coloca pra comenta e puxa reply
 }

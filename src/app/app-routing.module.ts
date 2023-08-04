@@ -8,6 +8,8 @@ import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
 import { CommunitiesComponent } from './forum/pages/communities/communities.component';
 import { SignUp2Component } from './users/pages/sign-up2/sign-up2.component';
 import { ProfileComponent } from './users/pages/profile/profile.component';
+import { RecoveryPasswordComponent } from './users/pages/recovery-password/recovery-password.component';
+import { PostComponent } from './forum/pages/post/post.component';
 
 const routes: Routes = [
   {
@@ -15,16 +17,16 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'topics',
-    component: HomeComponent
-  },
-  {
     path: 'features',
     component: FeaturesComponent
   },
   {
-    path: 'topics/:name',
+    path: 't/:name',
     component: HomeComponent
+  },
+  {
+    path: 't/:name/:post',
+    component: PostComponent
   },
   {
     path: 'sign-in',
@@ -41,6 +43,10 @@ const routes: Routes = [
   {
     path: 'user',
     component: ProfileComponent
+  },
+  {
+    path: 'recovery-password',
+    component: RecoveryPasswordComponent
   },
   {
     path: 'communities',
