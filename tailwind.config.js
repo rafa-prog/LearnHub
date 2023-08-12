@@ -7,7 +7,9 @@ module.exports = {
   theme: {
     extend: {},
   },
-  darkMode: "media",
-  plugins: [require("tw-elements/dist/plugin.cjs")],
+  darkMode: "class",
+  plugins: [
+    require("tw-elements/dist/plugin.cjs")
+  ],
 }
 

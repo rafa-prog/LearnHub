@@ -24,6 +24,8 @@ import { PostComponent } from './forum/pages/post/post.component';
 import { SignUp3Component } from './users/pages/sign-up3/sign-up3.component';
 import { ProfileComponent } from './users/pages/profile/profile.component';
 import { RecoveryPasswordComponent } from './users/pages/recovery-password/recovery-password.component';
+import { MatListModule } from '@angular/material/list';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { RecoveryPasswordComponent } from './users/pages/recovery-password/recov
     MatFormFieldModule,
     MatSidenavModule,
     MatSlideToggleModule,
+    MatListModule,
+    MatChipsModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

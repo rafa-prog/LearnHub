@@ -9,13 +9,21 @@ import { Router } from '@angular/router';
 
 export class AppComponent {
   title = 'LearnHub';
-  headers = ["Recursos", "Comunidades", "Empresa"]
-  urls = ["features", "communities", "b"]
+  headers = ["", "Recursos", "Comunidades", "Empresa", "Posts"]
+  urls = ["", "features", "communities", "b", "t/name/post"]
+  current = 0
+  isDarkMode = false;
   isLogged = false
 
   constructor(private router: Router) {}
 
-  navigate(link: string) {
-    this.router.navigate([link])
+  navigate(i: number) {
+    console.log(i)
+    this.current = i
+    this.router.navigate([this.urls[i]])
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
   }
 }
