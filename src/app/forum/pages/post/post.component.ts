@@ -1,9 +1,9 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, HostListener, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-post',
@@ -16,6 +16,13 @@ export class PostComponent {
   fruits: string[] = ['Lemon', 'Lime','Apple'];
 
   announcer = inject(LiveAnnouncer);
+
+  constructor(private router: Router, private location: Location) {}
+
+  voltarPaginaAnterior() {
+    alert('cancelar operação?')
+    return this.router.navigate(['/'])
+  }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

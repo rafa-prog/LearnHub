@@ -8,4 +8,5 @@ export const environment = {
     messagingSenderId: '974928591282',
     measurementId: 'G-JY7D2HJHNT',
   },
+  jwt: '44251c4b104cfe3bd6ff590216d1284b'
 };

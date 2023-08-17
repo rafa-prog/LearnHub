@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,10 +16,22 @@ export class AppComponent {
   isDarkMode = false;
   isLogged = false
 
-  constructor(private router: Router) {}
+  FormBusca: FormGroup
+
+  constructor(private router: Router,
+    private formBuilder: FormBuilder) {}
+
+  ngOnInit() {
+    this.FormBusca = this.formBuilder.group({busca: ['', [Validators.required]],})
+  }
+
+  searchFor(text: string) {
+    if(this.FormBusca.valid) {
+      console.log(text)
+    }
+  }
 
   navigate(i: number) {
-    console.log(i)
     this.current = i
     this.router.navigate([this.urls[i]])
   }
@@ -26,4 +39,6 @@ export class AppComponent {
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
   }
+
+
 }
