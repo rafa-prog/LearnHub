@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateUserService } from '../../services/create.user.service';
-import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/utils/services/storage.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import User from '../../models/User';
+import { UpdateUserService } from '../../services/update.user.service';
 
 @Component({
   selector: 'app-sign-up2',
@@ -14,23 +15,36 @@ export class SignUp2Component {
   FormCad: FormGroup
   isSubmitted: boolean
   image: any
+  email: string
 
   constructor(private formBuilder: FormBuilder,
-    private cUserS: CreateUserService,
-    private authService: AuthService,
+    private uUserS: UpdateUserService,
     private FSService: StorageService,
-    private router: Router) {}
+    private router: Router,) {}
 
   ngOnInit() {
     this.isSubmitted = false;
     this.FormCad = this.formBuilder.group({
-      file: [null, []],
-      //password: ['', [Validators.required, Validators.minLength(6)]],
-      terms: ['', Validators.requiredTrue],
+      username: ['', [Validators.required]],
+      company: ['', []],
+      country: ['', []],
+      photo: [null, []],
+      phone: ['', []],
+      bio: ['', []],
+      terms: ['', [Validators.requiredTrue]],
     })
+
+    this.email = history.state.email
+
+    if(this.email == undefined) {
+      alert('Ops, ocorreu um engano tente inserir novamente as informações da primeira etapa!')
+      this.navigate('sign-up')
+    }
+
+    console.log(this.email)
   }
 
-  navegar(link: string) {
+  navigate(link: string) {
     this.router.navigate([link])
   }
 
@@ -43,12 +57,21 @@ export class SignUp2Component {
 
     if(!this.FormCad.valid) {
       this.isSubmitted = false
-      this.FormCad.reset()
-      alert('Login ou senha inválidos')
+      if(this.FormCad.controls['username'].value) {
+        alert('Por favor, marque a opção de Política de Privacidade!')
+      }else {
+        alert('Insira um Nome de Usuário válido!')
+      }
+
       return false
     }
 
-    this.teste()
+    if(this.email == undefined) {
+      alert('Ops, ocorreu um engano tente inserir novamente as informações da primeira etapa!')
+      this.navigate('sign-up')
+    }
+
+    this.createAcc()
     return true
   }
 
@@ -56,13 +79,30 @@ export class SignUp2Component {
     this.image = event.target.files[0];
   }
 
-  teste() {
+  async createAcc() {
+    let user = new User()
+
+    user.username = this.FormCad.controls['username'].value
+    user.company = this.FormCad.controls['company'].value
+    user.country = this.FormCad.controls['country'].value
+    user.phone = this.FormCad.controls['phone'].value
+    user.about = this.FormCad.controls['bio'].value
+    user.email = this.email
+
+    user.private = true
+    user.follow = []
+    user.followed = []
 
     if(this.image) {
-      console.log(this.image)
-      console.log("disponivel em: " + this.FSService.uploadFile(this.image))
+      user.photo = this.FSService.uploadFile(this.image)
     }else {
-      console.log("https://firebasestorage.googleapis.com/v0/b/learnhub-d88d5.appspot.com/o/imagens%2F1689342292384_messi.jpg?alt=media&token=b2f13891-8607-432b-baef-8a969b1c10df")
+      user.photo = "https://firebasestorage.googleapis.com/v0/b/learnhub-d88d5.appspot.com/o/imagens%2Fuser.png?alt=media&token=b9ab5681-d60a-493e-ba6a-dfbda81895b9"
     }
+
+    let userId = history.state.userId
+    console.log(userId)
+    this.uUserS.execute(userId, user)
+    alert('Cadastro realizado com sucesso')
+    this.navigate('')
   }
 }

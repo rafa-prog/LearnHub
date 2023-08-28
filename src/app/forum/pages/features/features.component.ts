@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ShowForumService } from '../../services/show.topic.service';
+import { ListTopicService } from '../../services/list.topic.service';
 
 @Component({
   selector: 'app-features',
@@ -10,7 +10,7 @@ import { ShowForumService } from '../../services/show.topic.service';
 export class FeaturesComponent {
   items$: Observable<any[]>;
 
-  constructor(private showTopicsService: ShowForumService) {
-    this.items$ = this.showTopicsService.execute();
+  constructor(private listTopicService: ListTopicService) {
+    this.items$ = this.listTopicService.execute();
   }
 }

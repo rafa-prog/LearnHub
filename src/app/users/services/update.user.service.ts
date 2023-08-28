@@ -1,18 +1,18 @@
 import { Injectable, inject } from '@angular/core';
-import { DocumentReference, Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { DocumentReference, Firestore, doc, updateDoc } from '@angular/fire/firestore';
 
 import User from '../models/User';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CreateUserService {
+export class UpdateUserService {
   private firestore: Firestore = inject(Firestore);
 
   constructor() {}
 
-  async execute(user: User) {
-    return addDoc(collection(this.firestore, 'users'), {
+  async execute(userID: string, user: User) {
+    return updateDoc(doc(this.firestore, 'users', userID), {
       username: user.username,
       private: user.private,
       follow: user.follow,
@@ -23,6 +23,9 @@ export class CreateUserService {
       about: user.about,
       photo: user.photo,
       country: user.country
+    })
+    .then(() => {
+      alert('Dados da conta atualizado com sucesso!')
     })
   }
 }

@@ -1,6 +1,5 @@
-import { Inject, Injectable, inject } from '@angular/core';
-import { getAuth, createUserWithEmailAndPassword, Auth, user, User, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { CreateUserService } from './create.user.service';
+import { Injectable, inject } from '@angular/core';
+import { createUserWithEmailAndPassword, Auth, user, User, signInWithPopup, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
 
 @Injectable({
@@ -8,14 +7,19 @@ import { Subscription } from 'rxjs';
 })
 export class AuthService {
   private auth: Auth = inject(Auth)
-  user$ = user(this.auth)
-  userSubscription: Subscription
+  private user$ = user(this.auth)
+  private userSubscription: Subscription
 
   constructor() {
+    this.getUser()
+  }
+
+  getUser() {
     this.userSubscription = this.user$.subscribe((aUser: User | null) => {
-        //handle user state changes here. Note, that user will be null if there is no currently logged in user.
-     console.log(aUser);
+      //handle user state changes here. Note, that user will be null if there is no currently logged in user.
     })
+
+    return this.userSubscription
   }
 
   ngOnDestroy() {
@@ -23,8 +27,13 @@ export class AuthService {
     this.userSubscription.unsubscribe();
   }
 
-  signIn(acc: any) {
+  async signIn(acc: any) {
     return signInWithEmailAndPassword(this.auth, acc.email, acc.password)
+    .then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
   }
 
   async loginWithGoogle(a:any) {
@@ -33,18 +42,17 @@ export class AuthService {
   }
 
   signUp(email:string, password:string) {
-    createUserWithEmailAndPassword(this.auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+    return createUserWithEmailAndPassword(this.auth, email, password)
   }
 
-
+  disconnect() {
+    signOut(this.auth)
+    .then(() => {
+      this.userSubscription.unsubscribe();
+      // Sign-out successful.
+    }).catch((error) => {
+      return error
+      // An error happened.
+    });
+  }
 }

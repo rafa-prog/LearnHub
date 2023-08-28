@@ -1,0 +1,40 @@
+<div class="mt-4 pt-20">
+  <div class="pl-10">
+    <mat-chip-listbox aria-label="Filter Selection">
+      <button>
+        <mat-chip-option (selectionChange)="teste(i)" [selected]="currentFilter == i" *ngFor="let item of filters; let i = index">{{ item }}</mat-chip-option>
+      </button>
+    </mat-chip-listbox>
+  </div>
+
+  <ng-container *ngIf="queryData[currentFilter] == 'posts'">
+    <h2>Posts</h2>
+    <div class="mb-4" *ngFor="let post of posts$ | async">
+      <div class="border rounded p-2">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content }}</p>
+        <button class="mr-2">Upvote</button>
+        <button class="mr-2">Downvote</button>
+        <button class="mr-2">Comment</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="queryData[currentFilter] == 'topics'">
+    <h2>Tópicos</h2>
+    <div class="mb-4" *ngFor="let topic of topics$ | async">
+      <div class="border rounded p-2">
+        <h3>{{ topic.name }}</h3>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="queryData[currentFilter] == 'users'">
+    <h2>Users</h2>
+    <div class="mb-4" *ngFor="let user of users$ | async">
+      <div class="border rounded p-2">
+        <h3>{{ user.username }}</h3>
+      </div>
+    </div>
+  </ng-container>
+</div>

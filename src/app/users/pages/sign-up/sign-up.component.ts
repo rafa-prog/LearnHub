@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import User from '../../models/User';
+import { CreateUserService } from '../../services/create.user.service';
+import { DocumentReference } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,7 +16,9 @@ export class SignUpComponent {
   isSubmitted: boolean
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router) {}
+    private authService: AuthService,
+    private cUserS: CreateUserService,
+    private router: Router,) {}
 
   ngOnInit() {
     this.isSubmitted = false;
@@ -37,15 +43,58 @@ export class SignUpComponent {
       return false
     }
 
-    this.registerEmail()
+    if(this.FormCad.controls['password'].value != this.FormCad.controls['confirm_password'].value) {
+      this.isSubmitted = false
+      this.FormCad.reset()
+      alert('As senhas estão diferentes!')
+      return false
+    }
+
+    this.proximaEtapa()
     return true
   }
 
-  navegar(link: string) {
-    this.router.navigate([link])
-  }
+  async proximaEtapa() {
+    let email = this.FormCad.controls['email'].value
+    let password = this.FormCad.controls['password'].value
 
-  registerEmail() {
-    this.navegar('sign-up-2')
+    await this.authService.signUp(email, password).then((userCredential) => {
+      // Signed in
+      const userAuth = userCredential.user;
+      //console.log(userAuth)
+
+      let user = new User()
+      user.username = this.FormCad.controls['email'].value
+      user.email = this.FormCad.controls['email'].value
+      user.company = ''
+      user.country = ''
+      user.phone = ''
+      user.about = ''
+      user.private = true
+      user.follow = []
+      user.followed = []
+      user.photo = "https://firebasestorage.googleapis.com/v0/b/learnhub-d88d5.appspot.com/o/imagens%2Fuser.png?alt=media&token=b9ab5681-d60a-493e-ba6a-dfbda81895b9"
+
+      this.cUserS.execute(user)
+      .then((documentReference: DocumentReference) => {
+        let userId = documentReference.id as string
+        this.router.navigateByUrl('/sign-up-2', {state: {email: email, userId: userId}});
+      }).catch((error) => {
+        // An error happened.
+        alert('Um erro ocorreu, tente novamente mais tarde!')
+      });
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+      if(errorCode == 'auth/email-already-in-use') {
+        alert('Este email já está sendo usado')
+      }else {
+        alert(errorMessage)
+      }
+
+      this.FormCad.reset()
+    });
   }
 }

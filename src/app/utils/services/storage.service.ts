@@ -9,7 +9,7 @@ export class StorageService {
   public readonly standartPhoto = 'p'
   public readonly standartCoverPhoto = 'cvp'
 
-  uploadFile(file: any) {
+  uploadFile(file: any): string {
     //for (let i = 0; i < files.length; i++) {
       if (file) {
         const path = `imagens/${new Date().getTime()}_${file.name}`
@@ -41,8 +41,9 @@ export class StorageService {
               return downloadURL;
             });
           })
-
     }
+
+    return "https://firebasestorage.googleapis.com/v0/b/learnhub-d88d5.appspot.com/o/imagens%2F1689342292384_messi.jpg?alt=media&token=b2f13891-8607-432b-baef-8a969b1c10df"
   }
 
   deleteFile(link_file: string) {

@@ -10,11 +10,16 @@ import { SignUp2Component } from './users/pages/sign-up2/sign-up2.component';
 import { ProfileComponent } from './users/pages/profile/profile.component';
 import { RecoveryPasswordComponent } from './users/pages/recovery-password/recovery-password.component';
 import { PostComponent } from './forum/pages/post/post.component';
+import { SearchComponent } from './forum/pages/search/search.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent
+  },
+  {
+    path: 'search/:param',
+    component: SearchComponent
   },
   {
     path: 'features',

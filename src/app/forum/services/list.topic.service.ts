@@ -4,12 +4,12 @@ import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 @Injectable({
   providedIn: 'root'
 })
-export class CreateUserService {
-  private firestore: Firestore = inject(Firestore);
+export class ListTopicService {
+  firestore: Firestore = inject(Firestore)
 
-  constructor() { }
+  constructor() {}
 
-  execute() { //colocar single
+  execute() {
     return collectionData(collection(this.firestore, 'topics'));
   }
 }

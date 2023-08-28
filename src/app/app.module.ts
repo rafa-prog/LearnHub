@@ -26,6 +26,7 @@ import { ProfileComponent } from './users/pages/profile/profile.component';
 import { RecoveryPasswordComponent } from './users/pages/recovery-password/recovery-password.component';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
+import { SearchComponent } from './forum/pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MatChipsModule } from '@angular/material/chips';
     SignUp3Component,
     ProfileComponent,
     RecoveryPasswordComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
