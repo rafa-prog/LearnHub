@@ -11,6 +11,9 @@ import { ProfileComponent } from './users/pages/profile/profile.component';
 import { RecoveryPasswordComponent } from './users/pages/recovery-password/recovery-password.component';
 import { PostComponent } from './forum/pages/post/post.component';
 import { SearchComponent } from './forum/pages/search/search.component';
+import { SubmitComponent } from './forum/pages/submit/submit.component';
+import { CreateTopicComponent } from './forum/pages/create-topic/create-topic.component';
+import { TopicComponent } from './forum/pages/topic/topic.component';
 
 const routes: Routes = [
   {
@@ -22,12 +25,16 @@ const routes: Routes = [
     component: SearchComponent
   },
   {
-    path: 'features',
+    path: 'explore',
     component: FeaturesComponent
   },
   {
     path: 't/:name',
     component: HomeComponent
+  },
+  {
+    path: 'submit',
+    component: SubmitComponent
   },
   {
     path: 't/:name/:post',
@@ -46,12 +53,20 @@ const routes: Routes = [
     component: SignUp2Component
   },
   {
-    path: 'user',
+    path: 'u/:username',
     component: ProfileComponent
   },
   {
     path: 'recovery-password',
     component: RecoveryPasswordComponent
+  },
+  {
+    path: 'topic',
+    component: TopicComponent
+  },
+  {
+    path: 'create-topic',
+    component: CreateTopicComponent
   },
   {
     path: 'communities',

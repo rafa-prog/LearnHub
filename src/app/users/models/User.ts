@@ -11,4 +11,5 @@ export default class User {
   photo: string
   //cover_photo: string
   country: string
+  admin: boolean
 }

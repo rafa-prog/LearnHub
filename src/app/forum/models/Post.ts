@@ -1,15 +1,14 @@
-import User from "src/app/users/models/User"
 import Content from "./Content"
 import Reply from "./Reply"
 
 export default class Post {
-  id: string
   topic: string
-  user: User
+  username: string
   title: string
-  content: Content
-  reply: Reply
-  post_date: string
-  edit_date: string
+  content: any
+  tags: string[]
+  reply: string[]
+  post_date: Date
+  edit_date: Date
   votes: number
 }

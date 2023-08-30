@@ -1,9 +1,7 @@
 <div class="mt-4 pt-20">
   <div class="pl-10">
     <mat-chip-listbox aria-label="Filter Selection">
-      <button>
         <mat-chip-option (selectionChange)="teste(i)" [selected]="currentFilter == i" *ngFor="let item of filters; let i = index">{{ item }}</mat-chip-option>
-      </button>
     </mat-chip-listbox>
   </div>
 
@@ -32,9 +30,12 @@
   <ng-container *ngIf="queryData[currentFilter] == 'users'">
     <h2>Users</h2>
     <div class="mb-4" *ngFor="let user of users$ | async">
-      <div class="border rounded p-2">
-        <h3>{{ user.username }}</h3>
-      </div>
+      <a (click)="userProfile(user)">
+        <div class="border rounded p-2">
+
+          <h3>{{ user.username }}</h3>
+        </div>
+      </a>
     </div>
   </ng-container>
 </div>

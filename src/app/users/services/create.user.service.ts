@@ -22,7 +22,8 @@ export class CreateUserService {
       phone: user.phone,
       about: user.about,
       photo: user.photo,
-      country: user.country
+      country: user.country,
+      admin: false
     })
   }
 }

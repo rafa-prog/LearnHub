@@ -10,9 +10,9 @@ import { AuthService } from './users/services/auth.service';
 })
 
 export class AppComponent {
-  title = 'LearnHub';
-  headers = ["", "Recursos", "Comunidades", "Empresa", "Posts"]
-  urls = ["", "features", "communities", "b", "t/name/post"]
+  title = 'LearnHub'
+  headers = ["", "Explorar", "Comunidades", "Empresa", "Criar Tópico", "Criar Post"]
+  urls = ["", "explore", "communities", "company", "create-topic", "submit"]
   current = 0
 
   isSubmitted = false
@@ -22,17 +22,12 @@ export class AppComponent {
   FormBusca: FormGroup
 
   constructor(private router: Router,
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private auth: AuthService) {
       console.log(auth.getUser())
       if(auth.getUser()) {
           this.isLogged = true
       }
-
-      const currentRoute = this.route.snapshot;
-      const urlSegments = currentRoute.url;
-      console.log(currentRoute)
     }
 
   ngOnInit() {

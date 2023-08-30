@@ -1,12 +1,9 @@
-import User from "src/app/users/models/User"
-import Content from "./Content"
-
 export default class Reply {
   id: string
-  user: User
+  user: string
   title: string
-  content: Content
-  reply: Reply
+  content: any
+  reply: string[]
   post_date: string
   edit_date: string
   votes: number

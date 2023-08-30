@@ -21,12 +21,15 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { CommunitiesComponent } from './forum/pages/communities/communities.component';
 import { SignUp2Component } from './users/pages/sign-up2/sign-up2.component';
 import { PostComponent } from './forum/pages/post/post.component';
-import { SignUp3Component } from './users/pages/sign-up3/sign-up3.component';
 import { ProfileComponent } from './users/pages/profile/profile.component';
 import { RecoveryPasswordComponent } from './users/pages/recovery-password/recovery-password.component';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 import { SearchComponent } from './forum/pages/search/search.component';
+import { SubmitComponent } from './forum/pages/submit/submit.component';
+import { TopicComponent } from './forum/pages/topic/topic.component';
+import { CreateTopicComponent } from './forum/pages/create-topic/create-topic.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +42,12 @@ import { SearchComponent } from './forum/pages/search/search.component';
     CommunitiesComponent,
     SignUp2Component,
     PostComponent,
-    SignUp3Component,
     ProfileComponent,
     RecoveryPasswordComponent,
     SearchComponent,
+    SubmitComponent,
+    TopicComponent,
+    CreateTopicComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +58,7 @@ import { SearchComponent } from './forum/pages/search/search.component';
     MatSlideToggleModule,
     MatListModule,
     MatChipsModule,
+    MatIconModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

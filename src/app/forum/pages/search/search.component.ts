@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { ListTopicService } from '../../services/list.topic.service';
 import { ListUserService } from 'src/app/users/services/list.user.service';
 import { ListPostService } from '../../services/list.post.service';
+import User from 'src/app/users/models/User';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -19,7 +21,8 @@ export class SearchComponent {
 
   constructor(private listPostService: ListPostService,
   private listTopicService: ListTopicService,
-  private listUsersService: ListUserService) {
+  private listUsersService: ListUserService,
+  private router: Router) {
     this.posts$ = this.listPostService.execute()
     this.topics$ = this.listTopicService.execute()
     this.users$ = this.listUsersService.execute()
@@ -27,5 +30,9 @@ export class SearchComponent {
 
   teste(pos: number) {
     this.currentFilter = pos
+  }
+
+  userProfile(user: User) {
+    this.router.navigateByUrl('/u/' + user.username, {state: {user: user}});
   }
 }
