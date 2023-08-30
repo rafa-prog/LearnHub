@@ -12,18 +12,6 @@
     </div>
 
 
-    <label id="example-radio-group-label">Pick your favorite season</label>
-    <mat-radio-group
-      aria-labelledby="example-radio-group-label"
-      class="example-radio-group"
-      [(ngModel)]="favoriteSeason">
-      <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season">
-        {{season}}
-      </mat-radio-button>
-    </mat-radio-group>
-    <div>Your favorite season is: {{favoriteSeason}}</div>
-
-
 
     <div class="pt-4 pb-2 text-right">
       <button (click)="voltarPaginaAnterior()" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Cancelar</button>
