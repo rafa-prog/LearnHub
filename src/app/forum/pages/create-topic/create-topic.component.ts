@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,8 +10,23 @@ import { Router } from '@angular/router';
 export class CreateTopicComponent {
   FormTopic: FormGroup
   isSubmitted: boolean
+  marca: boolean = false
+  currentOption: number = 0
+  options: string[] = ['Público', 'Restrito', 'Privado'];
+  description = ['Qualquer um pode ver, postar e comentar.',
+  'Apenas os usuários selecionados podem postar.',
+  'Apenas os usuários selecionados podem ver, postar e comentar.']
 
-  constructor(private router: Router){}
+
+  constructor(private router: Router, private formBuilder: FormBuilder){}
+
+  ngOnInit() {
+    this.isSubmitted = false;
+    this.FormTopic = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      type: [this.options[this.currentOption], [Validators.required]],
+    })
+  }
 
   onSumbit() {
     this.isSubmitted = true
@@ -29,6 +44,11 @@ export class CreateTopicComponent {
 
   createTopic() {
 
+  }
+
+  changeCurrent(i: number) {
+    this.marca = true
+    this.currentOption = i
   }
 
   voltarPaginaAnterior() {

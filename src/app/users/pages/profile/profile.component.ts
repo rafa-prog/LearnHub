@@ -64,16 +64,14 @@ export class ProfileComponent {
 
     if(!this.FormProfile.valid) {
       this.isSubmitted = false
-      if(this.FormProfile.controls['username'].value) {
-        alert('Por favor, marque a opção de Política de Privacidade!')
-      }else {
+      if(!this.FormProfile.controls['username'].value) {
         alert('Insira um Nome de Usuário válido!')
       }
 
       return false
     }
 
-    if(this.user == undefined) {
+    if(this.user == null || this.user == undefined) {
       alert('Ops, ocorreu um erro ao acessar este perfil, tente novamente!')
       this.navigate('')
     }

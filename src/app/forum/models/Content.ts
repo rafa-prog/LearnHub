@@ -1,3 +1,5 @@
 export default class Content {
-  text: string
+  title: string
+  text: any
+  tags: string[]
 }

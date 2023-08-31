@@ -16,8 +16,8 @@ import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CommunitiesComponent } from './forum/pages/communities/communities.component';
 import { SignUp2Component } from './users/pages/sign-up2/sign-up2.component';
 import { PostComponent } from './forum/pages/post/post.component';
@@ -30,6 +30,7 @@ import { SearchComponent } from './forum/pages/search/search.component';
 import { SubmitComponent } from './forum/pages/submit/submit.component';
 import { TopicComponent } from './forum/pages/topic/topic.component';
 import { CreateTopicComponent } from './forum/pages/create-topic/create-topic.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { CreateTopicComponent } from './forum/pages/create-topic/create-topic.co
     MatListModule,
     MatChipsModule,
     MatIconModule,
+    MatRadioModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

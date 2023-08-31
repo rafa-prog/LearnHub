@@ -64,7 +64,7 @@ export class SubmitComponent {
 
     post.tags = this.items
     post.votes = 0
-    post.reply = []
+    post.replies = []
 
     post.content = this.FormPost.controls['text'].value
 
