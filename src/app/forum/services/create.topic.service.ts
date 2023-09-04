@@ -11,11 +11,12 @@ export class CreateTopicService {
   constructor() {}
 
   async execute(topic: Topic) {
-    return addDoc(collection(this.firestore, 'posts'),
+    return addDoc(collection(this.firestore, 'topics'),
     {
       name: topic.name,
       posts: topic.posts,
-      users: topic.users
+      users: topic.users,
+      owner: topic.owner
     })
   }
 }

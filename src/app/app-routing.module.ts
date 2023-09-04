@@ -30,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 't/:name',
-    component: HomeComponent
+    component: TopicComponent
   },
   {
     path: 'submit',

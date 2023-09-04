@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './users/services/auth.service';
@@ -9,7 +9,7 @@ import { AuthService } from './users/services/auth.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'LearnHub'
   headers = ["", "Explorar", "Comunidades", "Empresa", "Criar Tópico", "Criar Post"]
   urls = ["", "explore", "communities", "company", "create-topic", "submit"]
@@ -19,6 +19,8 @@ export class AppComponent {
   isDarkMode = false;
   isLogged = false
 
+  showUserOptions = false
+
   FormBusca: FormGroup
 
   constructor(private router: Router,
@@ -26,13 +28,34 @@ export class AppComponent {
     private auth: AuthService) {
       console.log(auth.getUser())
       if(auth.getUser()) {
-          this.isLogged = true
+          this.isLogged = false
       }
     }
 
   ngOnInit() {
     this.FormBusca = this.formBuilder.group({search: ['', [Validators.required]],})
+    this.setCurrent()
   }
+
+  setCurrent() {
+    const urlTree = this.router.parseUrl(this.router.url);
+    const primaryChild = urlTree.root.children['primary'];
+
+    if (primaryChild) {
+      const segments = primaryChild.segments.map(segment => segment.path);
+      const firstSegment = segments.length > 0 ? segments[0] : '';
+      const index = this.urls.indexOf(firstSegment);
+
+      if (index !== -1) {
+        this.current = index;
+      } else {
+        this.current = 0;
+      }
+    } else {
+      this.current = 0; // Ou defina um valor padrão apropriado se necessário
+    }
+  }
+
 
   onSubmit() {
     this.isSubmitted = true
@@ -63,8 +86,7 @@ export class AppComponent {
   }
 
   async teste() {
-    await this.auth.disconnect();
-    this.isLogged = false
+    this.showUserOptions = !this.showUserOptions;
 
   }
 

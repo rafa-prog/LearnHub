@@ -4,6 +4,7 @@ export default class User {
   private: boolean
   follow: User[]
   followed: User[]
+  posts: string[]
   email: string
   company: string
   phone: string

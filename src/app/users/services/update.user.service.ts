@@ -17,6 +17,7 @@ export class UpdateUserService {
       private: user.private,
       follow: user.follow,
       followed: user.followed,
+      posts: user.posts,
       email: user.email,
       company: user.company,
       phone: user.phone,

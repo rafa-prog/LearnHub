@@ -16,6 +16,7 @@ export class CreatePostService {
       user: post.username,
       title: post.title,
       content: post.content,
+      tags: post.tags,
       replies: post.replies,
       post_date: post.post_date,
       edit_date: post.edit_date,

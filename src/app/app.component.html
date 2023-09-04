@@ -7,26 +7,24 @@
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">LearnHub</span>
       </a>
 
-      <!--
+
       <label class="relative inline-flex items-center mb-5 cursor-pointer">
         <input (change)="toggleDarkMode()" type="checkbox" value="" class="sr-only peer">
         <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">swap</span>
       </label>
-      -->
 
-    <div class="flex md:order-2">
+    <div class="flex md:order-2 ml-auto">
         <form [formGroup]="FormBusca" (ngSubmit)="onSubmit()">
-          <div class="relative hidden md:block">
-              <input type="text" placeholder="Buscar..." formControlName="search" (keyup.enter)="onSubmit()" class="block w-full p-2 dark:text-white dark:bg-gray-800 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-              <button type="submit" class="absolute right-2 top-2">
-                <div class="flex items-center pl-2 pt-1 pointer-events-none">
-                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                  </svg>
-                  <span class="sr-only">Search icon</span>
+          <div class="bg-white dark:bg-gray-900">
+            <div class="relative mt-1">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
                 </div>
-              </button>
+                <input type="text" placeholder="Buscar..." formControlName="search" (keyup.enter)="onSubmit()" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
           </div>
         </form>
 
@@ -44,7 +42,33 @@
               <button (click)="teste()">
                 <img class="w-10 h-10 rounded-full" src="https://firebasestorage.googleapis.com/v0/b/learnhub-d88d5.appspot.com/o/imagens%2Fuser.png?alt=media&token=b9ab5681-d60a-493e-ba6a-dfbda81895b9" alt="Avatar">
               </button>
+              <ng-container *ngIf="showUserOptions">
+                <div class="pt-60 absolute">
+                <div class="my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                  <div class="px-4 py-3">
+                    <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
+                    <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                  </div>
+                  <ul class="py-2" aria-labelledby="user-menu-button">
+                    <li>
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              </ng-container>
             </ng-container>
+
+
           </div>
         </div>
 
@@ -54,9 +78,9 @@
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
             </svg>
         </button>
-      </div>
+    </div>
 
-        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-search">
+        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 mx-auto" id="navbar-search">
           <div class="relative mt-3 md:hidden">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -113,7 +137,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold uppercase text-white">Follow us</h2>
+                    <h2 class="mb-6 text-sm font-semibold uppercase text-white">Entre em contato</h2>
                     <ul class="text-gray-400 font-medium">
                         <li class="mb-4">
                             <a href="https://github.com/rafa-prog" target="_blank" class="hover:underline ">Github</a>
@@ -138,7 +162,7 @@
         </div>
         <hr class="my-6 sm:mx-auto border-gray-700 lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between">
-            <span class="text-sm sm:text-center text-gray-400">© 2023 <a href="https://flowbite.com/" target="_blank" class="hover:underline">Flowbite™</a>. Todos os direitos reservados.
+            <span class="text-sm sm:text-center text-gray-400">© 2023 <a href="" target="_blank" class="hover:underline">LearnHub™</a>. Todos os direitos reservados.
             </span>
             <div class="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
                 <a href="https://www.facebook.com/" target="_blank"  class="text-gray-500 hover:text-white">

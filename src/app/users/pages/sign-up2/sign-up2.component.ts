@@ -92,6 +92,7 @@ export class SignUp2Component {
     user.private = true
     user.follow = []
     user.followed = []
+    user.posts = []
 
     if(this.image) {
       user.photo = this.FSService.uploadFile(this.image)

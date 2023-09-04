@@ -72,6 +72,7 @@ export class SignUpComponent {
       user.about = ''
       user.private = true
       user.follow = []
+      user.posts = []
       user.followed = []
       user.photo = "https://firebasestorage.googleapis.com/v0/b/learnhub-d88d5.appspot.com/o/imagens%2Fuser.png?alt=media&token=b9ab5681-d60a-493e-ba6a-dfbda81895b9"
 
