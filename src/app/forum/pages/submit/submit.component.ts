@@ -60,7 +60,7 @@ export class SubmitComponent {
 
     post.title = this.FormPost.controls['title'].value
     post.topic = topic
-    post.username = 'rafab'
+    post.user = 'rafab'
 
     post.tags = this.items
     post.votes = 0
@@ -72,9 +72,8 @@ export class SubmitComponent {
     post.edit_date = post.post_date
 
     alert('Post criado com sucesso!')
-    this.cPostS.execute(post).then((documentReference: DocumentReference) => {
-      // the documentReference provides access to the newly created document
-      this.router.navigate(['/t/' + topic + '/' + documentReference.id])
+    this.cPostS.execute(post).then(() => {
+      this.router.navigate(['/t/' + topic + '/' + post.id])
     });
 
   }

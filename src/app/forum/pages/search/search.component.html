@@ -1,98 +1,93 @@
-<div class="mt-4 pt-20">
-  <div class="w-full pl-10 mx-auto items-center">
+<div class="pt-20">
+  <div class="w-full mx-auto items-center pb-20">
     <mat-chip-listbox aria-label="Filter Selection">
         <mat-chip-option (selectionChange)="setCurrent(i)" [selected]="currentFilter == i" *ngFor="let item of filters; let i = index">{{ item }}</mat-chip-option>
     </mat-chip-listbox>
   </div>
 
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg pt-32">
+  <ng-container *ngIf="posts$ && queryData[currentFilter] == 'posts'">
+    <div *ngFor="let post of posts$ | async" class="p-2 w-3/5 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+      <div class="cursor-pointer" (click)="goToPost(post)">
+        <p class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+          <a [routerLink]="'/t/'+post.topic" class="text-black hover:underline z-10">t/{{ post.topic }} </a>
+          |
+          Enviado por
+          <a class="font-medium hover:underline z-10" [routerLink]="'/u/' + post.user">u/{{ post.user }}</a>
 
-    <div *ngIf="(posts$ != undefined && queryData[currentFilter] == 'posts') || (topics$ != undefined && queryData[currentFilter] == 'topics') || (users$ != undefined && queryData[currentFilter] == 'users')"
-     class="w-4/5 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
-    <table class="text-sm w-full text-gray-500 dark:text-gray-400">
-      <tbody>
-        <ng-container *ngIf="queryData[currentFilter] == 'posts'">
-          <tr class="dark:bg-gray-800 border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let post of posts$ | async">
-            <td class="px-6 py-4">
-              <p class="whitespace-nowrap">
-                <a [routerLink]="'/t/'+post.topic" class="text-black hover:underline">t/{{ post.topic }} </a>
-                  |
-                  Enviado por
-                <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="goToUser(post.user)">{{ post.user }}</a>
+          {{ formatTimeAgo(post.post_date) }}
 
-                {{ formatTimeAgo(post.post_date.toDate()) }}
+          <ng-container *ngIf="post.post_date.toDate().getTime() != post.edit_date.toDate().getTime()">
+            (editado {{ formatTimeAgo(post.edit_date) }})
+          </ng-container>
 
-                |
+          |
 
-                {{ post.votes }} créditos
+          {{ post.votes }} créditos
 
-                |
+          |
 
-                {{ post.replies.length }} comentários
-              </p>
+          {{ post.replies.length }} comentários
+        </p>
 
-              <a [routerLink]="'/t/'+ post.topic + '/' + post.id" class="py-4 font-medium text-xl text-gray-900 whitespace-nowrap dark:text-white">
-                {{ post.title }}
-              </a>
+        <h2 class="text-xl py-4">{{ post.title }}</h2>
 
-              <p>
-                {{ post.content }}
-              </p>
+        <p for="" class="break-words text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{{ post.content }}</p>
 
-              <div *ngFor="let tag of post.tags" class="inline-block px-2 py-1 bg-blue-500 text-white rounded-lg text-sm mr-1">
-                <p class="">{{ tag }}</p>
-              </div>
-            </td>
-            <td class="text-right justify-end items-end pr-2 pt-16">
+        <div class="mt-2">
+          <div *ngFor="let tag of post.tags" class="inline-block px-2 py-1 bg-blue-500 text-white rounded-lg text-sm mr-1">
+            <p class="">{{ tag }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
-            </td>
-          </tr>
-        </ng-container>
+  <ng-container *ngIf="topics$ && queryData[currentFilter] == 'topics'">
+    <div *ngFor="let topic of topics$ | async" class="w-3/5 p-2 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+      <div class="cursor-pointer flex justify-between items-center h-full" (click)="goToTopic(topic)">
+        <div>
+          <p class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+            <a [routerLink]="'/t/'+topic.name" class="text-black hover:underline z-10">t/{{ topic.name }} </a>
+            |
+            {{ topic.users.length }} membros
+          </p>
 
-        <ng-container *ngIf="queryData[currentFilter] == 'topics'">
-          <tr class="dark:bg-gray-800 border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let topic of topics$ | async">
-            <td class="px-6 py-4">
-              <p class="whitespace-nowrap">
-                <a [routerLink]="'/t/'+topic.name" class="text-black hover:underline">t/{{ topic.name }} </a>
-                |
+          <p class="break-words text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+            {{ topic.about }}
+          </p>
+        </div>
+        <div>
+          <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline z-10">Unir-se</a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
-                {{ topic.users.length }} membros
-              </p>
+  <ng-container *ngIf="users$ && queryData[currentFilter] == 'users'">
+    <div *ngFor="let user of users$ | async" class="w-3/5 p-2 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+      <div class="cursor-pointer flex justify-between items-center h-full" (click)="goToUser(user)">
+        <div>
+          <p class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+            <a [routerLink]="'/u/'+user.username" class="text-black hover:underline z-10">u/{{ user.username }} </a>
+            |
 
-              <p>
-                {{ topic.about }}
-              </p>
-            <td class="px-6 py-4 text-right">
-                <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Unir-se</a>
-            </td>
-          </tr>
-        </ng-container>
+            {{ user.follow.length }} seguidores
 
-        <ng-container *ngIf="queryData[currentFilter] == 'users'">
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let user of users$ | async">
-            <td class="px-6 py-4">
-              <p class="whitespace-nowrap">
-                <a [routerLink]="'/u/'+user.username" class="text-black hover:underline">t/{{ user.username }} </a>
-                |
+            |
 
-                {{ user.follow.length }} seguidores
+            {{ user.followed.length }} seguindo
+          </p>
 
-                |
-
-                {{ user.followed.length }} seguindo
-              </p>
-
-              <p class="">
-                {{ user.about }}
-              </p>
-            <td class="px-6 py-4 text-right">
-                <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Seguir</a>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
+          <p class="break-words text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+            {{ user.about }}
+          </p>
+        </div>
+        <div>
+          <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline z-10">Seguir</a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
   <div class="flex justify-center items-center w-full">
     <div *ngIf="!((posts$ != undefined && queryData[currentFilter] == 'posts') || (topics$ != undefined && queryData[currentFilter] == 'topics') || (users$ != undefined && queryData[currentFilter] == 'users'))"
@@ -104,5 +99,4 @@
   </div>
 
   <div class="pt-32"></div>
-  </div>
 </div>

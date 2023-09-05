@@ -37,7 +37,7 @@ const routes: Routes = [
     component: SubmitComponent
   },
   {
-    path: 't/:name/:post',
+    path: 't/:name/:id',
     component: PostComponent
   },
   {

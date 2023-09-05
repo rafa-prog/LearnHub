@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc } from '@angular/fire/firestore';
 import Post from '../models/Post';
 
 @Injectable({
@@ -11,9 +11,12 @@ export class CreatePostService {
   constructor() {}
 
   async execute(post: Post) {
+    post.id = doc(collection(this.firestore, 'posts')).id
     return addDoc(collection(this.firestore, 'posts'),
-    { topic: post.topic,
-      user: post.username,
+    {
+      id: post.id,
+      topic: post.topic,
+      user: post.user,
       title: post.title,
       content: post.content,
       tags: post.tags,

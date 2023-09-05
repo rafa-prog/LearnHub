@@ -6,6 +6,7 @@ import { ListPostService } from '../../services/list.post.service';
 import User from 'src/app/users/models/User';
 import { Router } from '@angular/router';
 import Topic from '../../models/Topic';
+import { Timestamp } from '@angular/fire/firestore/firebase';
 import Post from '../../models/Post';
 
 @Component({
@@ -14,15 +15,6 @@ import Post from '../../models/Post';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-goToUser(arg0: any) {
-  alert('indo para ' + arg0)
-}
-goToTopic(_t45: any) {
-  alert('indo para ' + _t45)
-}
-goToPost(_t27: any) {
-  alert('indo para ' + _t27)
-}
   filters = ["Posts", "Tópicos", "Usuários"]
   queryData = ["posts", "topics", "users"]
   currentFilter = 0
@@ -46,17 +38,21 @@ goToPost(_t27: any) {
     this.currentFilter = pos
   }
 
-  userProfile(user: User) {
+  goToUser(user: User) {
     this.router.navigateByUrl('/u/' + user.username, {state: {user: user}});
   }
 
-  teste(topic: Topic) {
-    return topic.users.length
+  goToTopic(topic: Topic) {
+    this.router.navigateByUrl('/t/'+ topic.name, {state: {topic: topic}});
   }
 
-  formatTimeAgo(postDate: Date): string {
+  goToPost(post: Post) {
+    this.router.navigateByUrl('/t/'+ post.topic + "/" + post.id, {state: {post: post}});
+  }
+
+  formatTimeAgo(postDate: Timestamp): string {
     const now = new Date();
-    const timeDifference: number = now.getTime() - postDate.getTime();
+    const timeDifference: number = now.getTime() - postDate.toDate().getTime();
     // Calcula a diferença em segundos
     const seconds = Math.floor(timeDifference / 1000);
 
@@ -79,5 +75,4 @@ goToPost(_t27: any) {
       return `há ${years} ano${years !== 1 ? 's' : ''}`;
     }
   }
-
 }
