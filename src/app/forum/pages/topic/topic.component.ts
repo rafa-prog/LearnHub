@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Post from '../../models/Post';
 import { ListPostService } from '../../services/list.post.service';
 import { Timestamp } from '@angular/fire/firestore/firebase';
+import User from 'src/app/users/models/User';
 
 @Component({
   selector: 'app-topic',
@@ -12,12 +13,6 @@ import { Timestamp } from '@angular/fire/firestore/firebase';
   styleUrls: ['./topic.component.css']
 })
 export class TopicComponent implements OnInit {
-goToUser(arg0: string) {
-throw new Error('Method not implemented.');
-}
-aaaa() {
-alert('aaa')
-}
   topic: Topic | null
   posts: Post[] | null
 
@@ -38,7 +33,7 @@ alert('aaa')
         const name = params['name'];
         try {
           this.topic = await this.showTopicS?.getTopicByName(name);
-          console.log(this.topic)
+          
           if(this.topic == null || this.topic == undefined) {
             alert('Erro ao buscar tópico, tente novamente!')
             this.navigate('')
@@ -80,6 +75,18 @@ alert('aaa')
       const years = Math.floor(seconds / 31536000);
       return `há ${years} ano${years !== 1 ? 's' : ''}`;
     }
+  }
+
+  goToUser(user: string) {
+    this.router.navigateByUrl('/u/' + user, {state: {user: user}});
+  }
+
+  goToPost(post: Post) {
+    this.router.navigateByUrl('/t/'+ post.topic + "/" + post.id, {state: {post: post}});
+  }
+
+  goToSubmit(topic: any) {
+    this.router.navigateByUrl('/submit', {state: {topic: topic}});
   }
 
   navigate(link: string) {

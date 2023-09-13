@@ -7,7 +7,7 @@
 
   <form [formGroup]="FormPost" (ngSubmit)="onSumbit()">
     <div class="relative hidden md:block pb-4">
-      <p for="title" class="block text-sm font-semibold leading-6 text-gray-900">Título</p>
+      <p for="title" class="block text-2xl font-semibold leading-6 text-gray-900 dark:text-white">Título</p>
       <input type="text" formControlName="title" placeholder="" class="block w-full p-2 dark:text-white dark:bg-gray-800 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-blue-700 sm:text-sm sm:leading-6"/>
     </div>
 
@@ -94,7 +94,7 @@
     </div>
 
     <div>
-      <p for="email" class="block text-sm font-semibold leading-6 text-gray-900">Tags</p>
+      <p for="email" class="block text-2xl dark:text-white font-semibold leading-6 text-gray-900">Tags</p>
       <mat-chip-grid #chipGrid aria-label="Enter items">
         <mat-chip-row *ngFor="let item of items; let i = index"
                         (removed)="remove(item)"
@@ -103,7 +103,7 @@
                         (edited)="edit(item, $event)"
                         color="accent"
                         [aria-description]="'press enter to edit ' + item">
-          <p class="text-sky-700">#{{ item }}</p>
+          <p class="text-sky-700 dark:text-black">#{{ item }}</p>
           <button *ngIf="i != blockedTag" matChipRemove [attr.aria-label]="'remove ' + item">
             <mat-icon>cancel</mat-icon>
           </button>

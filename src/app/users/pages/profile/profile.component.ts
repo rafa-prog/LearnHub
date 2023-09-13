@@ -3,9 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import User from '../../models/User';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShowUserService } from '../../services/show.user.service';
-import Post from 'src/app/forum/models/Post';
 import { ListPostService } from 'src/app/forum/services/list.post.service';
 import { Timestamp } from '@angular/fire/firestore/firebase';
+import Post from 'src/app/forum/models/Post';
+import { tap } from 'rxjs';
+import { AuthService } from 'src/utils/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,8 +23,12 @@ throw new Error('Method not implemented.');
   image: string
   user: User | null
   posts$: any
+  uid:any
+  username: any
+  userPosts: Post[] = []
 
   constructor(private formBuilder: FormBuilder,
+    private authService: AuthService,
     private showUserService: ShowUserService,
     private listPostsService: ListPostService,
     private aRoute: ActivatedRoute,
@@ -44,6 +50,20 @@ throw new Error('Method not implemented.');
       follow: [this.user?.follow, []],
       followed: [this.user?.followed, []],
     })
+
+    this.getUsername()
+  }
+
+  async getUsername() {
+    await this.delay(1000);
+    let user = this.authService.getUserLogged()
+
+    if(user) {
+      this.uid = user.uid
+      let userData: User | null = await this.showUserService.execute(this.uid)
+      this.username = userData?.username
+      //console.log(this.username)
+    }
   }
 
   async setUser() {
@@ -54,7 +74,6 @@ throw new Error('Method not implemented.');
         const username = params['username'];
         try {
           this.user = await this.showUserService?.getUserByUsername(username);
-          console.log(this.user)
 
           if(this.user == null || this.user == undefined) {
             alert('Erro ao buscar usuário, tente novamente!')
@@ -62,7 +81,15 @@ throw new Error('Method not implemented.');
           }
 
           if(this.user) {
-            this.posts$ = this.listPostsService.getPostsByUser(username)
+            this.posts$ = await this.listPostsService.getPostsByUser(username)
+
+            if (this.posts$) {
+              this.posts$.pipe(
+                tap((posts: Post[]) => {
+                  this.userPosts = posts;
+                })
+              ).subscribe();
+            }
           }
 
         } catch (error) {
@@ -118,6 +145,14 @@ throw new Error('Method not implemented.');
       const years = Math.floor(seconds / 31536000);
       return `há ${years} ano${years !== 1 ? 's' : ''}`;
     }
+  }
+
+  delay(ms: number): Promise<void> {
+    return new Promise<void>(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
   }
 
   navigate(link: string) {

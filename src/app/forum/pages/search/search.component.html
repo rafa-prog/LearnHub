@@ -1,15 +1,16 @@
-<div class="pt-20">
+<div class="justify-center items-center min-h-screen">
   <div class="w-full mx-auto items-center pb-20">
     <mat-chip-listbox aria-label="Filter Selection">
         <mat-chip-option (selectionChange)="setCurrent(i)" [selected]="currentFilter == i" *ngFor="let item of filters; let i = index">{{ item }}</mat-chip-option>
     </mat-chip-listbox>
   </div>
 
-  <ng-container *ngIf="posts$ && queryData[currentFilter] == 'posts'">
-    <div *ngFor="let post of posts$ | async" class="p-2 w-3/5 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+
+  <ng-container *ngIf="filteredPosts.length > 0 && queryData[currentFilter] == 'posts'">
+    <div *ngFor="let post of filteredPosts" class="p-2 w-3/5 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
       <div class="cursor-pointer" (click)="goToPost(post)">
         <p class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-          <a [routerLink]="'/t/'+post.topic" class="text-black hover:underline z-10">t/{{ post.topic }} </a>
+          <a [routerLink]="'/t/'+post.topic" class="text-black dark:text-white hover:underline z-10">t/{{ post.topic }} </a>
           |
           Enviado por
           <a class="font-medium hover:underline z-10" [routerLink]="'/u/' + post.user">u/{{ post.user }}</a>
@@ -42,12 +43,12 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="topics$ && queryData[currentFilter] == 'topics'">
-    <div *ngFor="let topic of topics$ | async" class="w-3/5 p-2 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+  <ng-container *ngIf="filteredTopics.length > 0 && queryData[currentFilter] == 'topics'">
+    <div *ngFor="let topic of filteredTopics" class="w-3/5 p-2 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
       <div class="cursor-pointer flex justify-between items-center h-full" (click)="goToTopic(topic)">
         <div>
           <p class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-            <a [routerLink]="'/t/'+topic.name" class="text-black hover:underline z-10">t/{{ topic.name }} </a>
+            <a [routerLink]="'/t/'+topic.name" class="text-black dark:text-white hover:underline z-10">t/{{ topic.name }} </a>
             |
             {{ topic.users.length }} membros
           </p>
@@ -63,12 +64,12 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="users$ && queryData[currentFilter] == 'users'">
-    <div *ngFor="let user of users$ | async" class="w-3/5 p-2 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+  <ng-container *ngIf="filteredUsers.length > 0 && queryData[currentFilter] == 'users'">
+    <div *ngFor="let user of filteredUsers" class="w-3/5 p-2 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
       <div class="cursor-pointer flex justify-between items-center h-full" (click)="goToUser(user)">
         <div>
           <p class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-            <a [routerLink]="'/u/'+user.username" class="text-black hover:underline z-10">u/{{ user.username }} </a>
+            <a [routerLink]="'/u/'+user.username" class="text-black dark:text-white hover:underline z-10">u/{{ user.username }} </a>
             |
 
             {{ user.follow.length }} seguidores
@@ -89,8 +90,23 @@
     </div>
   </ng-container>
 
+
   <div class="flex justify-center items-center w-full">
-    <div *ngIf="!((posts$ != undefined && queryData[currentFilter] == 'posts') || (topics$ != undefined && queryData[currentFilter] == 'topics') || (users$ != undefined && queryData[currentFilter] == 'users'))"
+    <div *ngIf="filteredPosts.length == 0 && queryData[currentFilter] == 'posts'"
+    class="text-xl pl-4">
+      <div class="flex justify-center items-center w-full"><mat-icon>error_outline</mat-icon></div>
+
+      Sua busca não achou nenhum resultado!
+    </div>
+
+    <div *ngIf="filteredTopics.length == 0 && queryData[currentFilter] == 'topics'"
+    class="text-xl pl-4">
+      <div class="flex justify-center items-center w-full"><mat-icon>error_outline</mat-icon></div>
+
+      Sua busca não achou nenhum resultado!
+    </div>
+
+    <div *ngIf="filteredUsers.length == 0 && queryData[currentFilter] == 'users'"
     class="text-xl pl-4">
       <div class="flex justify-center items-center w-full"><mat-icon>error_outline</mat-icon></div>
 

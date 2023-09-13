@@ -6,7 +6,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Post from '../../models/Post';
 import { CreatePostService } from '../../services/create.post.service';
-import { DocumentReference } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-submit',
@@ -18,6 +17,7 @@ export class SubmitComponent {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   items: string[] = [];
   blockedTag = 0
+  topic: any
 
   announcer = inject(LiveAnnouncer);
 
@@ -29,7 +29,14 @@ export class SubmitComponent {
 
   ngOnInit() {
     // puxa o tópico e n deixa tirar
-    this.items.push('topic')
+    this.topic = history.state.topic
+
+    if(this.topic == undefined) {
+      alert('Ops, ocorreu um engano tente acessar novamente o tópico')
+      this.navigate('/')
+    }
+
+    this.items.push(this.topic)
 
     this.isSubmitted = false;
     this.FormPost = this.formBuilder.group({
@@ -119,5 +126,9 @@ export class SubmitComponent {
     if (index >= 0) {
       this.items[index] = value;
     }
+  }
+
+  navigate(link: string) {
+    this.router.navigate([link])
   }
 }

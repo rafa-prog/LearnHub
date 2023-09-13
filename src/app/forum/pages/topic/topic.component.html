@@ -1,9 +1,9 @@
-<div class="pt-20 pb-12 dark:bg-gray-800">
+<div class="pt-20 h-screen dark:bg-gray-800">
 
 <h1 class="text-2xl whitespace-nowrap pb-20">t/{{ topic?.name }} <button  class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Unir-se</button></h1>
 
 <div class="py-2 pb-8 w-3/5 mx-auto">
-  <button (click)="aaaa()" class="w-full">
+  <button (click)="goToSubmit(topic?.name)" class="w-full">
     <div class="mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
       <div class="md:flex md:items-center py-4 pl-2 pr-2">
         <input type="text" placeholder="Fazer postagem..." class="block w-full pl-2 dark:text-white dark:bg-gray-800 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-blue-700 sm:text-sm sm:leading-6" />
@@ -26,32 +26,34 @@
 
 <ng-container *ngIf="posts">
   <div *ngFor="let post of posts" class="w-3/5 p-2 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
-    <p class="text-gray-500 dark:text-gray-400 text-sm">Enviado por <a class="hover:underline" (click)="goToUser(post.user)">u/{{ post.user }}</a>
-      {{ formatTimeAgo(post.post_date) }}
-      <ng-container *ngIf="post.post_date.toDate().getTime() != post.edit_date.toDate().getTime()">
-        (editado {{ formatTimeAgo(post.edit_date) }})
-      </ng-container>
-    </p>
+    <div class="cursor-pointer" (click)="goToPost(post)">
+      <p class="text-gray-500 dark:text-gray-400 text-sm">Enviado por <a class="hover:underline" (click)="goToUser(post.user)">u/{{ post.user }}</a>
+        {{ formatTimeAgo(post.post_date) }}
+        <ng-container *ngIf="post.post_date.toDate().getTime() != post.edit_date.toDate().getTime()">
+          (editado {{ formatTimeAgo(post.edit_date) }})
+        </ng-container>
+      </p>
 
-    <h2 class="text-xl py-4">{{ post.title }}</h2>
+      <h2 class="text-xl py-4">{{ post.title }}</h2>
 
-    <label for="" class="break-words">{{ post.content }}</label>
+      <label for="" class="break-words">{{ post.content }}</label>
 
-    <div class="mt-2">
-      <div *ngFor="let tag of post.tags" class="inline-block px-2 py-1 bg-blue-500 text-white rounded-lg text-sm mr-1">
-        <p class="">{{ tag }}</p>
+      <div class="mt-2">
+        <div *ngFor="let tag of post.tags" class="inline-block px-2 py-1 bg-blue-500 text-white rounded-lg text-sm mr-1">
+          <p class="">{{ tag }}</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Botões de Comentar e Votar -->
-    <div class="mt-4 flex items-center text-black dark:text-white dark:hover:text-gray-400 hover:text-gray-700">
-      <button class="flex items-center text-gray-900 hover:text-gray-700 dark:text-white dark:hover:text-gray-300 mr-4">
-        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-          <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
-          <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
-        </svg>
-        Comentar
-      </button>
+      <!-- Botões de Comentar e Votar -->
+      <div class="mt-4 flex items-center text-black dark:text-white dark:hover:text-gray-400 hover:text-gray-700">
+        <button class="flex items-center text-gray-900 hover:text-gray-700 dark:text-white dark:hover:text-gray-300 mr-4">
+          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+            <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+            <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+          </svg>
+          Comentar
+        </button>
+      </div>
     </div>
   </div>
 </ng-container>

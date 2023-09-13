@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './forum/pages/home/home.component';
 import { ErrorComponent } from './forum/pages/error/error.component';
-import { FeaturesComponent } from './forum/pages/features/features.component';
 import { SignInComponent } from './users/pages/sign-in/sign-in.component';
 import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
 import { CommunitiesComponent } from './forum/pages/communities/communities.component';
@@ -14,6 +13,8 @@ import { SearchComponent } from './forum/pages/search/search.component';
 import { SubmitComponent } from './forum/pages/submit/submit.component';
 import { CreateTopicComponent } from './forum/pages/create-topic/create-topic.component';
 import { TopicComponent } from './forum/pages/topic/topic.component';
+import { ExploreComponent } from './forum/pages/explore/explore.component';
+import { AuthGuard } from 'src/utils/auth.guard'
 
 const routes: Routes = [
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'explore',
-    component: FeaturesComponent
+    component: ExploreComponent
   },
   {
     path: 't/:name',
@@ -34,7 +35,8 @@ const routes: Routes = [
   },
   {
     path: 'submit',
-    component: SubmitComponent
+    component: SubmitComponent,
+    canActivate: [AuthGuard], 
   },
   {
     path: 't/:name/:id',
@@ -66,7 +68,8 @@ const routes: Routes = [
   },
   {
     path: 'create-topic',
-    component: CreateTopicComponent
+    component: CreateTopicComponent,
+    canActivate: [AuthGuard], 
   },
   {
     path: 'communities',

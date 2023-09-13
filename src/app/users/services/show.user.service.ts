@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, collectionData, getDocs, limit, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, getDocs, limit, query, where } from '@angular/fire/firestore';
 import User from '../models/User';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +10,22 @@ export class ShowUserService {
 
   constructor() { }
 
-  async execute(id: string) {
-    collectionData(collection(this.firestore, 'users', id));
+  async execute(id: string): Promise<User | null> {
+    const userDocRef = doc(this.firestore, 'users', id);
+
+    try {
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data(); // Sem necessidade de fazer cast
+        return userData as User; // Realize o cast para o tipo User
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Erro ao obter o documento do usuário:', error);
+      throw error;
+    }
   }
 
   async getUserByUsername(username: string): Promise<User | null> {

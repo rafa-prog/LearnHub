@@ -1,9 +1,9 @@
 export default class Reply {
   user: string
-  title: string
   content: any
+  post: string
   replies: string[]
-  reply_date: string
-  edit_date: string
+  reply_date: any
+  edit_date: any
   votes: number
 }

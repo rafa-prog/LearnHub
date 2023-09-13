@@ -13,4 +13,5 @@ export default class User {
   //cover_photo: string
   country: string
   admin: boolean
+  darkMode: boolean
 }

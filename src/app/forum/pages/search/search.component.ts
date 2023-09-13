@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core'
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { ListTopicService } from '../../services/list.topic.service';
 import { ListUserService } from 'src/app/users/services/list.user.service';
 import { ListPostService } from '../../services/list.post.service';
 import User from 'src/app/users/models/User';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Topic from '../../models/Topic';
 import { Timestamp } from '@angular/fire/firestore/firebase';
 import Post from '../../models/Post';
@@ -22,16 +22,61 @@ export class SearchComponent implements OnInit {
   topics$: Observable<any[]>;
   users$: Observable<any[]>;
 
+  filteredPosts: any[] = []
+  filteredTopics: any[] = []
+  filteredUsers: any[] = []
+
   constructor(private listPostService: ListPostService,
+  private aRoute: ActivatedRoute,
   private listTopicService: ListTopicService,
   private listUsersService: ListUserService,
-  private router: Router) {
-    this.posts$ = this.listPostService.execute()
-    this.topics$ = this.listTopicService.execute()
-    this.users$ = this.listUsersService.execute()
-  }
+  private router: Router) {}
 
   ngOnInit() {
+    this.aRoute.paramMap.subscribe(params => {
+      const busca = params.get('param');
+  
+      if (busca) {
+        // Filtrar posts com base na busca
+        this.posts$ = this.listPostService.execute().pipe(
+          tap(posts => {
+            this.filteredPosts = posts.filter(post =>
+              post['title'].toLowerCase().includes(busca.toLowerCase()) ||
+              post['content'].toLowerCase().includes(busca.toLowerCase()) ||
+              (post['tags'] as string[]).some((tag: string) => tag.toLowerCase().includes(busca.toLowerCase()))
+            )
+          })
+        )
+        
+  
+        // Filtrar tópicos com base na busca
+        this.topics$ = this.listTopicService.execute().pipe(
+          tap(topics => {
+            this.filteredTopics = topics.filter(topic => 
+              topic['name'].toLowerCase().includes(busca.toLowerCase()) ||
+              (topic['about'] ? topic['about'].toLowerCase().includes(busca.toLowerCase()) : false)
+            );
+          })
+        );
+
+  
+        // Filtrar usuários com base na busca
+        this.users$ = this.listUsersService.execute().pipe(
+          tap(users => {
+            this.filteredUsers = users.filter(user => 
+              user['username'].toLowerCase().includes(busca.toLowerCase()) ||
+              (user['about'] ? user['about'].toLowerCase().includes(busca.toLowerCase()) : false)
+            );
+          }) 
+        );
+
+
+        // Atualizar dados salvos nas pipes
+        this.posts$.pipe(tap()).subscribe()
+        this.topics$.pipe(tap()).subscribe()
+        this.users$.pipe(tap()).subscribe()
+      }
+    });  
   }
 
   setCurrent(pos: number) {

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { DocumentReference, Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { DocumentReference, Firestore, addDoc, collection, doc, setDoc } from '@angular/fire/firestore';
 
 import User from '../models/User';
 
@@ -11,8 +11,8 @@ export class CreateUserService {
 
   constructor() {}
 
-  async execute(user: User) {
-    return addDoc(collection(this.firestore, 'users'), {
+  async execute(user: User, uid: any) {
+    return setDoc(doc(this.firestore, 'users', uid), {
       username: user.username,
       private: user.private,
       follow: user.follow,
@@ -24,7 +24,8 @@ export class CreateUserService {
       about: user.about,
       photo: user.photo,
       country: user.country,
-      admin: false
+      admin: false,
+      darkMode: false
     })
   }
 }

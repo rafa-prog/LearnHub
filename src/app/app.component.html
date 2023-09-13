@@ -1,19 +1,25 @@
-<html [ngClass]="isDarkMode ? 'dark' : ''">
-  <header class="fixed top-0 w-full z-20">
+<html [ngClass]="isDarkMode ? 'dark' : ''" class="min-h-screen w-full">
+   <!-- REM (16px)-->
+  <header class="fixed top-0 w-full z-10">
     <nav class="bg-white dark:bg-gray-900">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      <a (click)="navigate(0)" class="flex items-center" style="cursor: pointer;">
-          <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Icon logo" />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">LearnHub</span>
-      </a>
+      <div class="flex p-4 w-full items-center mx-auto text-center">
+        <a (click)="navigate(0)" class="flex text-left cursor-pointer" >
+            <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Icon logo" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">LearnHub</span>
+        </a>
+      <div class="items-center mx-auto pl-80 self-center" id="navbar-search">
+        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0">
+          <li *ngFor="let item of headers; let i = index">
+            <a *ngIf="i != 0" (click)="navigate(i)" class="block py-2 pl-3 pr-4" aria-current="page"
+            [ngClass]="current == i ?
+            'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500' :
+            'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'"
+            style="cursor: pointer;"
+            >{{ item }}</a>
+          </li>
+        </ul>
+      </div>
 
-      <!--
-      <label class="relative inline-flex items-center mb-5 cursor-pointer">
-        <input (change)="toggleDarkMode()" type="checkbox" value="" class="sr-only peer">
-        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">swap</span>
-      </label>
-      -->
     <div class="flex md:order-2 ml-auto">
         <form [formGroup]="FormBusca" (ngSubmit)="onSubmit()">
           <div class="bg-white dark:bg-gray-900">
@@ -39,84 +45,69 @@
             </ng-container>
 
             <ng-container *ngIf="isLogged">
-              <button (click)="teste()">
-                <img class="w-10 h-10 rounded-full" src="https://firebasestorage.googleapis.com/v0/b/learnhub-d88d5.appspot.com/o/imagens%2Fuser.png?alt=media&token=b9ab5681-d60a-493e-ba6a-dfbda81895b9" alt="Avatar">
+              <button (click)="altUserSettings()">
+                <img class="w-10 h-10 rounded-full" [src]="photo" alt="Avatar">
               </button>
+
               <ng-container *ngIf="showUserOptions">
-                <div class="pt-60 absolute">
-                <div class="my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                <div class="z-50 my-4 top-0 right-0 mt-16  absolute text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
                   <div class="px-4 py-3">
-                    <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                    <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                    <span class="block text-sm text-gray-900 dark:text-white">{{ username }}</span>
+                    <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{ email }}</span>
                   </div>
+
                   <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                      <span class="mr-3 text-sm font-medium text-gray-900 dark:text-gray-300 relative inline-flex">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3V1m0 18v-2M5.05 5.05 3.636 3.636m12.728 12.728L14.95 14.95M3 10H1m18 0h-2M5.05 14.95l-1.414 1.414M16.364 3.636 14.95 5.05M14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/>
+                        </svg>
+                      </span>
+
+                      <label class="relative inline-flex items-center mb-5 cursor-pointer">
+                        <input (change)="toggleDarkMode()" type="checkbox" [checked]="isDarkMode"  class="sr-only peer ml-3">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        
+                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.509 5.75c0-1.493.394-2.96 1.144-4.25h-.081a8.5 8.5 0 1 0 7.356 12.746A8.5 8.5 0 0 1 8.509 5.75Z"/>
+                          </svg>
+                        </span>                  
+                      </label>
                     </li>
                     <li>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+                      <a [routerLink]="'/u/'+ username" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Perfil</a>
                     </li>
                     <li>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                      <a routerLink="/#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Configurações</a>
                     </li>
                     <li>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                      <a (click)="disconnectUser()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Desconectar</a>
                     </li>
                   </ul>
                 </div>
-              </div>
               </ng-container>
             </ng-container>
-
-
           </div>
         </div>
-
-        <button data-collapse-toggle="navbar-search" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
-            <span class="sr-only">Open main menu</span>
-            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-            </svg>
-        </button>
     </div>
 
-        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 mx-auto" id="navbar-search">
-          <div class="relative mt-3 md:hidden">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-              </svg>
-            </div>
-            <input type="text" id="search-navbar" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
-          </div>
-          <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0 " >
-            <li *ngFor="let item of headers; let i = index">
-              <a (click)="navigate(i)" class="block py-2 pl-3 pr-4" aria-current="page"
-              [ngClass]="current == i ?
-              'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500' :
-              'text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'"
-              style="cursor: pointer;"
-              >{{ item }}</a>
-            </li>
-          </ul>
-        </div>
       </div>
     </nav>
 
     <ng-container *ngIf="!isDarkMode">
       <hr class="border-gray-300"/>
     </ng-container>
-
+    
   </header>
-  <!-- REM (16px)-->
 
-  <body class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
-    <div>
+  <body class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white relative">
+    <div class="flex-grow p-20 w-full justify-center items-center mx-auto flex-col dark:bg-gray-800">
       <router-outlet></router-outlet>
     </div>
 
-    <footer class="w-full bottom-0 bg-gray-900">
-      <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+    <footer class="mx-auto overflow-hidden bottom-0 bg-gray-900 fixed-footer">
+      <div class="p-4 py-6 lg:py-8">
           <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
                 <a href="https://flowbite.com/" class="flex items-center">

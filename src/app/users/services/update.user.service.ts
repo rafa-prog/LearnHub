@@ -11,8 +11,14 @@ export class UpdateUserService {
 
   constructor() {}
 
-  async execute(userID: string, user: User) {
+  async toggleDarkMode(userID: string, darkMode: boolean) {
     return updateDoc(doc(this.firestore, 'users', userID), {
+      darkMode: darkMode
+    })
+  }
+
+  async execute(userId: string, user: User) {
+    return updateDoc(doc(this.firestore, 'users', userId), {
       username: user.username,
       private: user.private,
       follow: user.follow,

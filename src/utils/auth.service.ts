@@ -8,18 +8,30 @@ import { Subscription } from 'rxjs';
 export class AuthService {
   private auth: Auth = inject(Auth)
   private user$ = user(this.auth)
+  private userLogged: User | null
   private userSubscription: Subscription
 
   constructor() {
-    this.getUser()
+    this.getSub()
   }
 
-  getUser() {
-    this.userSubscription = this.user$.subscribe((aUser: User | null) => {
+  async getSub() {
+    this.userSubscription =  this.user$.subscribe((aUser: User | null) => {
       //handle user state changes here. Note, that user will be null if there is no currently logged in user.
+      this.userLogged = aUser
+      //console.log(this.userLogged)
     })
 
     return this.userSubscription
+  }
+
+  getUserLogged() {
+    return this.userLogged
+  }
+
+  isAuthenticated(): boolean {
+    const userLogged: any = user(this.auth);
+    return userLogged !== null; // Verifica se há um usuário autenticado
   }
 
   ngOnDestroy() {
@@ -29,16 +41,17 @@ export class AuthService {
 
   async signIn(acc: any) {
     return signInWithEmailAndPassword(this.auth, acc.email, acc.password)
-    .then(() => {
-      // Sign-out successful.
+    .then((userCredential) => {
+      // Signed in
+      const userAuth = userCredential.user;
+      //console.log(userAuth)
     }).catch((error) => {
       // An error happened.
     });
   }
 
-  async loginWithGoogle(a:any) {
-    await signInWithPopup(this.auth, a);
-    console.log(this.userSubscription);
+  async loginWithGoogle(user: any) {
+    await signInWithPopup(this.auth, user);
   }
 
   signUp(email:string, password:string) {
@@ -53,6 +66,14 @@ export class AuthService {
     }).catch((error) => {
       return error
       // An error happened.
+    });
+  }
+
+  delay(ms: number): Promise<void> {
+    return new Promise<void>(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
     });
   }
 }

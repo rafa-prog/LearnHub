@@ -14,6 +14,7 @@ export class CreateTopicService {
     return addDoc(collection(this.firestore, 'topics'),
     {
       name: topic.name,
+      type: topic.type,
       posts: topic.posts,
       users: topic.users,
       owner: topic.owner

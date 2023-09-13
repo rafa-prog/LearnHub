@@ -10,7 +10,6 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { ErrorComponent } from './forum/pages/error/error.component';
-import { FeaturesComponent } from './forum/pages/features/features.component';
 import { SignInComponent } from './users/pages/sign-in/sign-in.component';
 import { SignUpComponent } from './users/pages/sign-up/sign-up.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -31,13 +30,13 @@ import { SubmitComponent } from './forum/pages/submit/submit.component';
 import { TopicComponent } from './forum/pages/topic/topic.component';
 import { CreateTopicComponent } from './forum/pages/create-topic/create-topic.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { ExploreComponent } from './forum/pages/explore/explore.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ErrorComponent,
-    FeaturesComponent,
     SignInComponent,
     SignUpComponent,
     CommunitiesComponent,
@@ -49,6 +48,7 @@ import { MatRadioModule } from '@angular/material/radio';
     SubmitComponent,
     TopicComponent,
     CreateTopicComponent,
+    ExploreComponent,
   ],
   imports: [
     BrowserModule,

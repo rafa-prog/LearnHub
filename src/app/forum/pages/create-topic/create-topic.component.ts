@@ -1,8 +1,12 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CreateTopicService } from '../../services/create.topic.service';
 import Topic from '../../models/Topic';
+import { AuthService } from 'src/utils/auth.service';
+import { ShowUserService } from 'src/app/users/services/show.user.service';
+import User from 'src/app/users/models/User';
+
 @Component({
   selector: 'app-create-topic',
   templateUrl: './create-topic.component.html',
@@ -18,8 +22,13 @@ export class CreateTopicComponent {
   'Apenas os usuários selecionados podem postar.',
   'Apenas os usuários selecionados podem ver, postar e comentar.']
 
+  username: any
+  uid: any
 
-  constructor(private router: Router, private formBuilder: FormBuilder,
+  constructor(private router: Router, 
+    private authService: AuthService,
+    private showUserService: ShowUserService,
+    private formBuilder: FormBuilder,
     private createTopicS: CreateTopicService){}
 
   ngOnInit() {
@@ -27,14 +36,32 @@ export class CreateTopicComponent {
     this.FormTopic = this.formBuilder.group({
       name: ['', [Validators.required]]
     })
+
+    this.getUsername()
+  }
+
+  async getUsername() {
+    let user = this.authService.getUserLogged()
+
+    if(user) {
+      this.uid = user.uid
+      let userData: User | null = await this.showUserService.execute(this.uid)
+      this.username = userData?.username
+    }
   }
 
   onSumbit() {
     this.isSubmitted = true
 
-    if(!this.FormTopic.valid || this.currentOption == -1) {
+    if(!this.FormTopic.valid || this.currentOption == -1 || this.username == null) {
       this.isSubmitted = false
       this.FormTopic.reset()
+
+      if(this.username == null) {
+        this.navigate('/sign-in')
+        alert('Usuário desconectado!')
+        return false
+      }
       alert('Campo(s) de cadastro de tópico inválido(s)!')
       return false
     }
@@ -47,13 +74,15 @@ export class CreateTopicComponent {
     let topic: Topic = new Topic()
 
     topic.name = this.FormTopic.controls['name'].value
-    topic.type = 'Primário'
+    topic.type = this.options[this.currentOption]
     topic.users = []
+    topic.users.push(this.uid)
     topic.posts = []
-    topic.owner = 'rafab'
+    topic.owner = this.username
 
     this.createTopicS.execute(topic)
-    alert('foi')
+    alert('Tópico criado com sucesso!')
+    this.navigate('/t/' + topic.name)
   }
 
   tryCancel() {
@@ -61,7 +90,7 @@ export class CreateTopicComponent {
   }
 
   retry() {
-    console.log(this.cancel)
+    //console.log(this.cancel)
     this.cancel = false
   }
 
@@ -80,5 +109,9 @@ export class CreateTopicComponent {
     }
 
     return this.router.navigate(['/'])
+  }
+
+  navigate(link: string) {
+    this.router.navigate([link])
   }
 }

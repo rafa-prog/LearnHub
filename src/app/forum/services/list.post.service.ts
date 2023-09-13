@@ -26,8 +26,6 @@ export class ListPostService {
         posts.push(post.data() as Post)
       })
 
-      console.log(posts)
-
       return posts
     } else {
       return null; // Nenhum usuário encontrado com o username fornecido
@@ -45,8 +43,6 @@ export class ListPostService {
       userSnapshot.forEach((post) => {
         posts.push(post.data() as Post)
       })
-
-      console.log(posts)
 
       return posts
     } else {

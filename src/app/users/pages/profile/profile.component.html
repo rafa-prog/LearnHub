@@ -1,29 +1,51 @@
-<form [formGroup]="FormProfile" class="pt-20 pl-10 col-span-full">
+<form [formGroup]="FormProfile" class="pt-20 col-span-full">
   <div class="flex h-screen">
     <!-- 1/3 do espaço para o perfil -->
-    <div class="w-1/3 p-4">
-      <div class="">
-        <div class="mt-2 flex items-center gap-x-3">
-        <img class="w-40 h-40 rounded-full" [src]="user?.photo" alt="user photo">
+    <div class="w-1/5 mx-auto">
+      <div>
+        <div class="mt-2">
+        <img class="w-40 h-40 rounded-full mx-auto text-center" [src]="user?.photo" alt="user photo">
       </div>
     </div>
 
-    <h2 class="mt-4 text-3xl font-bold tracking-tight sm:text-3xl text-gray-900 dark:text-white">{{user?.username}}</h2>
-      <ng-container *ngIf="user?.private">
-        Este perfil é privado!
+    <h2 class="mt-4 mx-auto text-center text-3xl font-bold tracking-tight sm:text-3xl text-gray-900 dark:text-white">{{user?.username}}</h2>
+      <ng-container *ngIf="user?.private && user?.username != username">
+        <p class="mx-auto text-center">Este perfil é privado.</p>
       </ng-container>
 
-      <ng-container *ngIf="!user?.private">
+      <ng-container *ngIf="user?.private || user?.username == username">
+        <ng-container *ngIf="user?.username == username">
 
+          <p class="mx-auto text-center pb-2">{{ user?.follow?.length }} seguidores | {{ user?.followed?.length }} seguindo</p>
+
+          <button *ngIf="user?.username == username && username" class="py-4 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm md:px-5 md:py-2.5 mr-1 md:mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Editar Perfil</button>
+      
+          <ng-container *ngIf="user?.about != ''">
+            <p class="py-1 pt-4">{{ user?.about }}</p>
+          </ng-container>
+
+          <ng-container *ngIf="user?.country != ''">
+            <p class="py-1">{{user?.country}}</p>
+          </ng-container>
+
+          <ng-container *ngIf="user?.company != ''">
+            <p class="py-1">{{user?.company}}</p>
+          </ng-container>
+
+          <ng-container *ngIf="user?.phone != ''">
+            <p class="py-1">{{user?.phone}}</p>
+          </ng-container>
+
+        </ng-container>
       </ng-container>
     </div>
-    <!-- 2/3 do espaço para os posts -->
-    <div class="w-2/3 bg-white p-4">
-      <h1 class="text-2xl">Postagens</h1>
 
-      <div class="pt-20 pb-12 dark:bg-gray-800">
-        <ng-container *ngIf="posts$">
-          <div *ngFor="let post of posts$ | async" class="w-3/5 p-2 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+    <!-- 2/3 do espaço para os posts -->
+    <div class="w-4/5 p-4 text-left">
+      <h1 class="text-3xl pb-4">Postagens</h1>
+      <div class="">
+        <ng-container *ngIf="userPosts.length > 0">
+          <div *ngFor="let post of userPosts" class="w-3/5 p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
             <p class="text-gray-500 dark:text-gray-400 text-sm">Enviado por <a class="hover:underline" (click)="goToUser(post.user)">u/{{ post.user }}</a>
               {{ formatTimeAgo(post.post_date) }}
               <ng-container *ngIf="post.post_date.toDate().getTime() != post.edit_date.toDate().getTime()">
@@ -52,13 +74,14 @@
               </button>
             </div>
 
-            <div class="pb-4"></div>
+            <div class="pb-4 dark:bg-gray-800"></div>
           </div>
+        </ng-container>
+
+        <ng-container *ngIf="userPosts.length == 0">
+          Esse usuário ainda não fez nenhuma postagem.
         </ng-container>
       </div>
     </div>
-  </div>
-  <div class="pb-20">
-
   </div>
 </form>

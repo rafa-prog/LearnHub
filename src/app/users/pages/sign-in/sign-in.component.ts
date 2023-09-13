@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
+import { AuthService } from '../../../../utils/auth.service';
+import { GoogleAuthProvider } from '@angular/fire/auth';
 
 
 @Component({
@@ -37,14 +37,15 @@ export class SignInComponent {
     }
 
     await this.authService.signIn(acc).then(() => {
-      alert("Success on login")
       this.navigate('')
+      this.reloadPageWithDelay(10); // Chama o redirecionamento com atraso de 2 segundos
     })
     .catch(() => {
       this.FormLogin.reset()
       alert('Credenciais incorretas ou usuário não cadastrado!')
     });
   }
+
 
   async googleLogin() {
     const provider = new GoogleAuthProvider();
@@ -68,5 +69,11 @@ export class SignInComponent {
 
     this.login()
     return true
+  }
+
+  reloadPageWithDelay(delayMilliseconds: number) {
+    setTimeout(() => {
+      window.location.reload(); // Recarrega a página atual após o atraso
+    }, delayMilliseconds);
   }
 }

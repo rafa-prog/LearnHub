@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { GoogleAuthProvider } from '@angular/fire/auth';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../../utils/auth.service';
 
 @Component({
   selector: 'app-recovery-password',

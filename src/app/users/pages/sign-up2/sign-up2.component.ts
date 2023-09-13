@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateUserService } from '../../services/create.user.service';
-import { StorageService } from 'src/app/utils/services/storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { StorageService } from 'src/utils/storage.service';
+import { Router } from '@angular/router';
 import User from '../../models/User';
 import { UpdateUserService } from '../../services/update.user.service';
 
@@ -40,8 +39,6 @@ export class SignUp2Component {
       alert('Ops, ocorreu um engano tente inserir novamente as informações da primeira etapa!')
       this.navigate('sign-up')
     }
-
-    console.log(this.email)
   }
 
   navigate(link: string) {
@@ -81,6 +78,7 @@ export class SignUp2Component {
 
   async createAcc() {
     let user = new User()
+    let userId = history.state.userId
 
     user.username = this.FormCad.controls['username'].value
     user.company = this.FormCad.controls['company'].value
@@ -95,15 +93,20 @@ export class SignUp2Component {
     user.posts = []
 
     if(this.image) {
-      user.photo = this.FSService.uploadFile(this.image)
+      user.photo = await this.FSService.uploadFile(this.image)
     }else {
       user.photo = "https://firebasestorage.googleapis.com/v0/b/learnhub-d88d5.appspot.com/o/imagens%2Fuser.png?alt=media&token=b9ab5681-d60a-493e-ba6a-dfbda81895b9"
     }
+    
+    await this.uUserS.execute(userId, user)
+    this.navigate('/u/' + user.username)
+  }
 
-    let userId = history.state.userId
-    console.log(userId)
-    this.uUserS.execute(userId, user)
-    alert('Cadastro realizado com sucesso')
-    this.navigate('')
+  delay(ms: number): Promise<void> {
+    return new Promise<void>(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
   }
 }
