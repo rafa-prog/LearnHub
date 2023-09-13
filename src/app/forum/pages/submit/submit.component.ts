@@ -6,6 +6,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Post from '../../models/Post';
 import { CreatePostService } from '../../services/create.post.service';
+import { AuthService } from 'src/utils/auth.service';
+import { ShowUserService } from 'src/app/users/services/show.user.service';
+import User from 'src/app/users/models/User';
 
 @Component({
   selector: 'app-submit',
@@ -23,9 +26,15 @@ export class SubmitComponent {
 
   FormPost: FormGroup
   isSubmitted: boolean
+  
+  username: any
+  uid: any
 
-
-  constructor(private router: Router, private cPostS: CreatePostService, private formBuilder: FormBuilder) {}
+  constructor(private router: Router, 
+    private authService: AuthService,
+    private cPostS: CreatePostService,
+    private showUserService: ShowUserService, 
+    private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     // puxa o tópico e n deixa tirar
@@ -44,6 +53,17 @@ export class SubmitComponent {
       text: ['', [Validators.required]],
       tags: [this.items, []]
     })
+    this.getUsername()
+  }
+
+  async getUsername() {
+    let user = this.authService.getUserLogged()
+
+    if(user) {
+      this.uid = user.uid
+      let userData: User | null = await this.showUserService.execute(this.uid)
+      this.username = userData?.username
+    }
   }
 
   onSumbit() {
@@ -67,7 +87,9 @@ export class SubmitComponent {
 
     post.title = this.FormPost.controls['title'].value
     post.topic = topic
-    post.user = 'rafab'
+    post.user = this.username
+
+    // arrumado
 
     post.tags = this.items
     post.votes = 0
