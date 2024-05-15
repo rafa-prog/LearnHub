@@ -5,6 +5,7 @@ import { AuthService } from '../utils/auth.service';
 import { ShowUserService } from './users/services/show.user.service';
 import User from './users/models/User';
 import { UpdateUserService } from './users/services/update.user.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -36,13 +37,40 @@ export class AppComponent implements OnInit {
     private showUserService: ShowUserService,
     private updateUserService: UpdateUserService,
     private formBuilder: FormBuilder,
+    private http: HttpClient,
     private auth: AuthService) {
       this.getCurrentUser()
+      this.teste()
     }
 
   ngOnInit() {
     this.FormBusca = this.formBuilder.group({search: ['', [Validators.required]],})
     this.setCurrent()
+  }
+
+  async teste() {
+    let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwcC5yZXBvcnRsb2FkLmNvbTo4MDAwL2FwaS9sb2dpbiIsImlhdCI6MTcxNTc5NDQ2NiwiZXhwIjoxNzE1ODIzMjY2LCJuYmYiOjE3MTU3OTQ0NjYsImp0aSI6InduYmljTFdrR0NxQ2EwU3giLCJzdWIiOiI2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.WyRPA5MFFCq7ExtGgDxnjoheoGaXp5XltBtq-cSBFzE';
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    .append('accept', 'application/json')
+    .append('content-type', 'application/json');
+
+    console.log(headers)
+    console.log(token)
+    
+    this.http.get<Response>(`https://app.reportload.com:8000/api/auth/group_reports/all`, { headers })
+    .subscribe({
+      next: (r) => {
+        console.log(r)
+      },
+      error: (e) => {
+        if(e.status == 401) {
+          console.log(e)
+        }
+      }
+    });
   }
 
   async getCurrentUser() {

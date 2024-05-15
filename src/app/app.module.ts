@@ -31,6 +31,7 @@ import { TopicComponent } from './forum/pages/topic/topic.component';
 import { CreateTopicComponent } from './forum/pages/create-topic/create-topic.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { ExploreComponent } from './forum/pages/explore/explore.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,8 @@ import { ExploreComponent } from './forum/pages/explore/explore.component';
     MatChipsModule,
     MatIconModule,
     MatRadioModule,
+
+    HttpClientModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
